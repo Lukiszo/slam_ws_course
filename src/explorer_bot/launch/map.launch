@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+        
+    <param name="robot_description" textfile="$(find explorer_bot)/urdf/dolly.urdf" />
+
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+
+
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"  args="-param robot_description -urdf -model dolly" />  
+    <node name="Joint_tester" pkg="rviz" type="rviz" output="screen" args="$(find explorer_bot)/config/third.rviz"/>
+         
+    <node name="RSP" pkg="robot_state_publisher" type="robot_state_publisher" output="screen"/>
+    <node name="JSP" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" output="screen"/>
+    
+    
+    <node pkg="gmapping"  type="slam_gmapping" name="maping_node">
+        <param name="base_frame" value="base" />
+        <param name="odom_frame" value="odom" />
+        <param name="delta" value="0.1" />
+    </node>
+
+</launch>
